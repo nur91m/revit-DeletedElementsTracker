@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 4.2.0.8783
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackRemove", "TrackRemove.csproj", "{CF42CB66-BF94-4E2E-9E35-DEF8373BEECE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|BPC = Debug|BPC
+		Release|Any CPU = Release|Any CPU
+		Release|BPC = Release|BPC
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF42CB66-BF94-4E2E-9E35-DEF8373BEECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF42CB66-BF94-4E2E-9E35-DEF8373BEECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF42CB66-BF94-4E2E-9E35-DEF8373BEECE}.Debug|BPC.ActiveCfg = Debug|Any CPU
+		{CF42CB66-BF94-4E2E-9E35-DEF8373BEECE}.Debug|BPC.Build.0 = Debug|Any CPU
+		{CF42CB66-BF94-4E2E-9E35-DEF8373BEECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF42CB66-BF94-4E2E-9E35-DEF8373BEECE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF42CB66-BF94-4E2E-9E35-DEF8373BEECE}.Release|BPC.ActiveCfg = Release|Any CPU
+		{CF42CB66-BF94-4E2E-9E35-DEF8373BEECE}.Release|BPC.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
