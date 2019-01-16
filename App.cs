@@ -17,22 +17,27 @@ namespace TrackRemove
         private string documentName; 
         private List<DeletedElement> deletedList = new List<DeletedElement>();
         private List<ElementId> addedList = new List<ElementId>();
-        string tempPath = Path.GetTempPath() + "tracker\\";
+        string tempPath = Path.GetTempPath() + @"\tracker\";
+        
         public Result OnStartup(UIControlledApplication app)
-        {            
+        {           	
             app.ControlledApplication.DocumentChanged += OnDocumentChanged;
             app.ControlledApplication.DocumentSynchronizingWithCentral += OnDocumentSynchronizingWithCentral;
+                        
             return Result.Succeeded;
         }
 
         
         private void OnDocumentSynchronizingWithCentral(object sender, DocumentSynchronizingWithCentralEventArgs e)
         {
-            var path = tempPath + $"{documentName.Substring(0, 4)}_{username}.csv";
+        	tempPath = Path.GetDirectoryName(BasicFileInfo.Extract(e.Document.PathName).CentralPath)+@"\tracker\";
+        	try{
+            var path = tempPath + documentName + "_" + username;
 
             if (!File.Exists(path))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                var di = Directory.CreateDirectory(Path.GetDirectoryName(path));
+                di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
             }
             if (deletedList.Count>0)
             {
@@ -43,13 +48,19 @@ namespace TrackRemove
                         tw.WriteLine(item.ToString());
                     });
                 }
-                deletedList.Clear();
-                addedList.Clear();
-            }            
+                
+            } 
+				deletedList.Clear();
+                addedList.Clear();            
+        	}
+        	catch{
+        		
+        	}
         }
-
+        
         private void OnDocumentChanged(object sender, DocumentChangedEventArgs e)
         {
+        	try{
             setInfos(e);
 
             // get deleted elements ID
@@ -63,7 +74,7 @@ namespace TrackRemove
                             deletedList.Add(new DeletedElement(item.IntegerValue.ToString(), documentName, username));
                     }
                 }
-                else if(e.GetAddedElementIds().Count>0)
+                else if(e.GetTransactionNames()[0] != "Обновление рабочих наборов до последней версии из хранилища" && e.GetAddedElementIds().Count>0)
                 {
                     addedList.AddRange(e.GetAddedElementIds().AsEnumerable());
                 }
@@ -88,18 +99,22 @@ namespace TrackRemove
                     }
                 }
             }
+        	}
+        	catch{
+        		
+        	}
 
         }
 
         private void setInfos(DocumentChangedEventArgs e)
         {
-                var doc = e.GetDocument();
-                username = doc.Application.Username;
-                documentName = doc.Title;              
+            var doc = e.GetDocument();
+            username = doc.Application.Username;
+            documentName = doc.Title;              
         }
 
         public Result OnShutdown(UIControlledApplication app)
-        {
+        {     
             app.ControlledApplication.DocumentChanged -= OnDocumentChanged;
             app.ControlledApplication.DocumentSynchronizingWithCentral -= OnDocumentSynchronizingWithCentral;
             return Result.Succeeded;
@@ -118,9 +133,11 @@ namespace TrackRemove
         {
             get
             {
-                var day = (_date.Day < 9 ? "0" : "") + _date.Day;
-                var month = (_date.Month < 9 ? "0" : "") + _date.Month;
+                var day = (_date.Day < 10 ? "0" : "") + _date.Day;
+                var month = (_date.Month < 10 ? "0" : "") + _date.Month;                
                 var year = _date.Year;
+                
+                var minute = (_date.Minute < 10 ? "0" : "") + _date.Minute;
 
                 return day + "-" + month + "-" + year + "," + _date.Hour + ":" + _date.Minute;
             }
